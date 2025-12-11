@@ -76,11 +76,62 @@ class ComputerProduct {
     /**
      * @return array
      */
-    public static function getAll()
-    {
+    public static function getAll(){
         $pdo = Database::getPDO();
         $stmt = $pdo->query("SELECT * FROM ordinateurproduit ORDER BY id_ordinateur ASC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @param int
+     * @return array|null
+     */
+    public static function selectByID(){
+        $pdo = Databse::getPDO();
+        $stmt = $pdo->query("SELECT * FROM ordinateurproduit BY ?");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @return bool
+     */
+    public function save(){
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare("INSERT INTO ordinateurproduit(nom, prix, description, composants, stock, url_img");
+        return $stmt->execute([
+            $this->nom,
+            $this->prix,
+            $this->description,
+            $this->composants,
+            $this->stock,
+            $this->url_img,
+        ]);
+    }
+    /**
+     * @return bool
+     */
+    public function update(){
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare("UPDATE produit SET nom = ?, prix = ?, description = ?, composants = ?, stock = ?, url_img = ? WHERE id = ?");
+        return $stmt->execute([
+            $this->nom,
+            $this->prix,
+            $this->description,
+            $this->composants,
+            $this->stock,
+            $this->url_img,
+            $this->id
+        ]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function delete()
+    {
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare("DELETE FROM ordinateurproduit WHERE id = ?");
+        return $stmt->execute([$this->id]);
     }
 
 }
