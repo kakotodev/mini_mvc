@@ -7,6 +7,7 @@
             <li>
                 <a href="/">accueil</a>
                 <a href="/products">Les PCs</a>
+                <a href="/computers">Les vrais PCs</a>
             </li>
         </nav>
     </div>

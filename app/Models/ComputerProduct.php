@@ -2,7 +2,7 @@
 
 namespace Mini\Models;
 
-use Mini\Core\Databse;
+use Mini\Core\Database;
 use PDO;
 
 class ComputerProduct {
@@ -79,7 +79,7 @@ class ComputerProduct {
     public static function getAll()
     {
         $pdo = Database::getPDO();
-        $stmt = $pdo->query("SELECT * FROM ordinateurproduit ORDER BY id ASC");
+        $stmt = $pdo->query("SELECT * FROM ordinateurproduit ORDER BY id_ordinateur ASC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

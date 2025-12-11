@@ -1,18 +1,18 @@
 <?php
 
-declare(stict_types=1);
+declare(strict_types=1);
 
 namespace Mini\Controllers;
 
 use Mini\Core\Controller;
-use Minj\Models\Product;
+use Mini\Models\ComputerProduct;
 
-final class ComputerProduct extends Controller {
+final class ComputerProductController extends Controller {
 
     public function listComputerProducts(): void {
-        $computerproducts = Product::getAll();
+        $computerproducts = ComputerProduct::getAll();
 
-        $this->render('product/list-computerproducts', params: [
+        $this->render('computers/list-computerproducts', params: [
             'title' => 'Liste des Ordinateurs disponibles',
             'computerproducts' => $computerproducts
         ]);
