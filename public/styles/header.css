@@ -1,0 +1,30 @@
+header {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .header-section {
+
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+
+        width: 100%;
+
+        li {
+
+            text-decoration: none;
+            list-style: none;
+
+            a{
+
+                margin: 1em;
+
+                color: white;
+
+            }
+        }
+    }
+}
