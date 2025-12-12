@@ -53,4 +53,30 @@ class HistoriqueAchat{
         $stmt = $pdo->query("SELECT * FROM historiqueachat BY ?");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * @return bool
+     */
+    public function save(){
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare("INSERT INTO histroiqueachat(nom, utilisateur_id, panier_id");
+        return $stmt->execute([
+            $this->nom,
+            $this->utilisateur_id,
+            $this->panier_id
+        ]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function update(){
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare("UPDATE produit SET utilisateur_id = ?, panier_id = ? WHERE id = ?");
+        return $stmt->execute([
+            $this->utilisateur_id,
+            $this->panier_id,
+            $this->id
+        ]);
+    }
 }

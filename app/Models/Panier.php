@@ -62,4 +62,31 @@ class Panier{
         $stmt = $pdo->query("SELECT * FROM panier BY ?");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * @return bool
+     */
+    public function save(){
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare("INSERT INTO panier(utilisateur_id, produit_id, status");
+        return $stmt->execute([
+            $this->utilisateur_id,
+            $this->produit_id,
+            $this->status
+        ]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function update(){
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare("UPDATE produit SET utilisateur_id = ?, produit_id = ?, status = ? WHERE id = ?");
+        return $stmt->execute([
+            $this->utilisateur_id,
+            $this->produit_id,
+            $this->status,
+            $this->id
+        ]);
+    }
 }
