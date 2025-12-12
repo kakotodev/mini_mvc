@@ -100,4 +100,12 @@ final class HomeController extends Controller
             echo json_encode(['error' => 'Erreur lors de la création de l\'utilisateur.'], JSON_PRETTY_PRINT);
         }
     }
+
+    public function loginUser(): void
+    {
+
+        $this->render('home/login-user', params: [
+            'title' => 'Connectez à un compte'
+        ]);
+    }
 }
