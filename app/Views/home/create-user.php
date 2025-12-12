@@ -5,7 +5,7 @@
     <!-- Message de succès ou d'erreur -->
     <div id="message" style="display: none; padding: 10px; margin-bottom: 20px; border-radius: 4px;"></div>
     
-    <form id="userForm" style="display: flex; flex-direction: column; gap: 15px;">
+    <form id="userForm" action="/users" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
         <div>
             <label for="nom" style="display: block; margin-bottom: 5px; font-weight: bold;">Nom :</label>
             <input 
@@ -29,6 +29,28 @@
                 placeholder="exemple@email.com"
             >
         </div>
+
+        <div>
+            <label for="password" style="display: block; margin-bottom: 5px; font-weight: bold;">Mot de passe :</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                required 
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+            >
+        </div>
+        <div>
+            <label for="confirmedpassword" style="display: block; margin-bottom: 5px; font-weight: bold;">Confirmé votre mot de passe :</label>
+            <input 
+                type="password" 
+                id="confirmedpassword" 
+                name="confirmedpassword" 
+                required 
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+            >
+        </div>
+
         
         <button 
             type="submit" 
@@ -49,11 +71,13 @@
 // Gestion de la soumission du formulaire
 document.getElementById('userForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    
+
     // Récupère les valeurs du formulaire
     const nom = document.getElementById('nom').value.trim();
     const email = document.getElementById('email').value.trim();
-    
+    const password = document.getElementById('password').value.trim();
+    const confirmedpassword = document.getElementById('confirmedpassword').value.trim();
+
     // Affiche un message de chargement
     const messageDiv = document.getElementById('message');
     messageDiv.style.display = 'block';
@@ -71,6 +95,8 @@ document.getElementById('userForm').addEventListener('submit', async function(e)
             body: JSON.stringify({
                 nom: nom,
                 email: email
+                password: password
+                confirmed: confirmedpassword
             })
         });
         
