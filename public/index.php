@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require dirname(path: __DIR__) . '/vendor/autoload.php';
 
+session_start();
+
 use Mini\Core\Router;
 
 // Table des routes minimaliste
@@ -11,10 +13,10 @@ $routes = [
 
     ['GET', '/', [Mini\Controllers\HomeController::class, 'index']],
     ['GET', '/users', [Mini\Controllers\HomeController::class, 'users']],
-    ['POST', '/users', [Mini\Controllers\HomeController::class, 'createUser']],
+    ['POST', '/users', [Mini\Controllers\UserCreateController::class, 'createUser']],
     ['POST', '/users', [Mini\Controllers\HomeController::class, 'loginUser']],
     ['GET', '/users/login', [Mini\Controllers\HomeController::class, 'showLoginUserForm']],
-    ['GET', '/users/create', [Mini\Controllers\HomeController::class, 'showCreateUserForm']],
+    ['GET', '/users/create', [Mini\Controllers\UserCreateController::class, 'showCreateUserForm']],
     ['GET', '/products', [Mini\Controllers\ProductController::class, 'listProducts']],
     ['GET', '/products/create', [Mini\Controllers\ProductController::class, 'showCreateProductForm']],
     ['POST', '/products', [Mini\Controllers\ProductController::class, 'createProduct']],
