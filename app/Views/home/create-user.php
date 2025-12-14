@@ -5,7 +5,7 @@
     <!-- Message de succès ou d'erreur -->
     <div id="message" style="display: none; padding: 10px; margin-bottom: 20px; border-radius: 4px;"></div>
     
-    <form id="userForm" action="/users" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+    <form id="createUserForm" action="/users" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
         <div>
             <label for="nom" style="display: block; margin-bottom: 5px; font-weight: bold;">Nom :</label>
             <input 
@@ -69,8 +69,9 @@
 
 <script>
 // Gestion de la soumission du formulaire
-document.getElementById('userForm').addEventListener('submit', async function(e) {
+document.getElementById('createUserForm').addEventListener('submit', async function(e) {
     e.preventDefault();
+    console.log(e);
 
     // Récupère les valeurs du formulaire
     const nom = document.getElementById('nom').value.trim();
@@ -79,11 +80,11 @@ document.getElementById('userForm').addEventListener('submit', async function(e)
     const confirmedpassword = document.getElementById('confirmedpassword').value.trim();
 
     // Affiche un message de chargement
-    const messageDiv = document.getElementById('message');
-    messageDiv.style.display = 'block';
-    messageDiv.style.backgroundColor = '#d1ecf1';
-    messageDiv.style.color = '#0c5460';
-    messageDiv.textContent = 'Création en cours...';
+    const messageCreateUserDiv = document.getElementById('message');
+    messageCreateUserDiv.style.display = 'block';
+    messageCreateUserDiv.style.backgroundColor = '#d1ecf1';
+    messageCreateUserDiv.style.color = '#0c5460';
+    messageCreateUserDiv.textContent = 'Création en cours...';
     
     try {
         // Envoie la requête POST avec les données en JSON
@@ -104,23 +105,24 @@ document.getElementById('userForm').addEventListener('submit', async function(e)
         
         if (response.ok && data.success) {
             // Succès
-            messageDiv.style.backgroundColor = '#d4edda';
-            messageDiv.style.color = '#155724';
-            messageDiv.textContent = '✅ ' + data.message;
+            messageCreateUserDiv.style.backgroundColor = '#d4edda';
+            messageCreateUserDiv.style.color = '#155724';
+            messageCreateUserDiv.textContent = '✅ ' + data.message;
             
             // Réinitialise le formulaire
             document.getElementById('userForm').reset();
         } else {
             // Erreur
-            messageDiv.style.backgroundColor = '#f8d7da';
-            messageDiv.style.color = '#721c24';
-            messageDiv.textContent = '❌ ' + (data.error || 'Une erreur est survenue');
+            messageCreateUserDiv.style.backgroundColor = '#f8d7da';
+            messageCreateUserDiv.style.color = '#721c24';
+            messageCreateUserDiv.textContent = '❌ ' + (data.error || 'Une erreur est survenue');
         }
     } catch (error) {
         // Erreur réseau
-        messageDiv.style.backgroundColor = '#f8d7da';
-        messageDiv.style.color = '#721c24';
-        messageDiv.textContent = '❌ Erreur de connexion : ' + error.message;
+        messageCreateUserDiv.style.backgroundColor = '#f8d7da';
+        messageCreateUserDiv.style.color = '#721c24';
+        messageCreateUserDiv.textContent = '❌ Erreur de connexion : ' + error.message;
+        
     }
 });
 </script>

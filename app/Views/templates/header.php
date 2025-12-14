@@ -12,4 +12,21 @@
             </li>
         </nav>
     </div>
+    <div>
+        <?php
+            if(isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true) {
+                ?>
+                <div>
+                    <p>User : <span><?= htmlspecialchars($_SESSION['username'])?></span> </p>
+                </div>
+                <?php
+            } else {
+                ?>
+                <div>
+                    <p>User : Visitor </p>
+                </div>
+                <?php
+            }
+        ?>
+    </div>
 </div>
