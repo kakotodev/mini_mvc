@@ -15,6 +15,7 @@
         </div>
         <button type="submit">Connecter</button>
     </form>
+    <a href="/users/create">Crée un utilisateurs</a>
 </div>
 
 <script>

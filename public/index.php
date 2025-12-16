@@ -24,7 +24,8 @@ $routes = [
     ['GET', '/users/logout', [Mini\Controllers\UserLogoutController::class, "logoutUser"]],
     ['GET', '/users/logout', [Mini\Controllers\UserLogoutController::class, "showLogoutUserForm"]],
     ['GET', '/users/profile', [Mini\Controllers\UserProfilController::class, "showProfileUserForm"]],
-    ['GET', '/users/profile', [Mini\Controllers\UserProfilController::class, "ProfileUser"]]
+    ['GET', '/users/profile', [Mini\Controllers\UserProfilController::class, "ProfileUser"]],
+    ['POST', '/computers', [Mini\Controllers\ComputerProductController::class, "addPanierComputerProducts"]]
 ];
 // Bootstrap du router
 $router = new Router($routes);

@@ -15,12 +15,6 @@ final class UserLoginController extends Controller {
         ]);
     }
 
-    private $userModel;
-
-    public function __construct(){
-        $this->userModel = new User();
-    }
-
     public function loginUser(): void
     {
         header('Content-Type: application/json; charset=utf-8');
@@ -52,7 +46,7 @@ final class UserLoginController extends Controller {
         
         // Mise en place du login
 
-        $user = $this->userModel->findByEmail($input['loginEmail']);
+        $user = User::findByEmail($input['loginEmail']); 
 
         if ($user && password_verify($input['loginPassword'], $user['mdp'])) {
             $_SESSION['user_id'] = $user['id'];

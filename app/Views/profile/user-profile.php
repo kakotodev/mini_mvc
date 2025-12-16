@@ -9,6 +9,7 @@
                 <hr>
                 <div>
                     <h2>Votre historique d'achat :</h2>
+                    
                 </div>
             <?php
         }else{
