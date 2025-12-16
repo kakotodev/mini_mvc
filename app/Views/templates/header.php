@@ -8,7 +8,17 @@
                 <a href="/">accueil</a>
                 <a href="/products">Les PCs</a>
                 <a href="/computers">Les vrais PCs</a>
-                <a href="/users/login">Connectez/Crée votre compte</a>
+                <?php
+                    if(isset($_SESSION['is_logged_in'])&& $_SESSION['is_logged_in'] === true) {
+                ?>  
+                    <a href="users/logout">Se déconnecter</a>
+                <?php
+                    }else{
+                    ?>
+                        <a href="/users/login">Connectez/Crée votre compte</a>
+                    <?php
+                    }
+                ?>
             </li>
         </nav>
     </div>
@@ -18,7 +28,7 @@
                 ?>
                 <div>
                     <p>User : <span><?= htmlspecialchars($_SESSION['username'])?></span> </p>
-                    <a href="users/logout">Se déconnecter</a>
+                    <a href="/users/profile">Votre profile</a>
                 </div>
                 <?php
             } else {

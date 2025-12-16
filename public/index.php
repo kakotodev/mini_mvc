@@ -22,7 +22,9 @@ $routes = [
     ['POST', '/products', [Mini\Controllers\ProductController::class, 'createProduct']],
     ['GET', '/computers', [Mini\Controllers\ComputerProductController::class, "listComputerProducts"]],
     ['GET', '/users/logout', [Mini\Controllers\UserLogoutController::class, "logoutUser"]],
-    ['GET', '/users/logout', [Mini\Controllers\UserLogoutController::class, "showLogoutUserForm"]]
+    ['GET', '/users/logout', [Mini\Controllers\UserLogoutController::class, "showLogoutUserForm"]],
+    ['GET', '/users/profile', [Mini\Controllers\UserProfilController::class, "showProfileUserForm"]],
+    ['GET', '/users/profile', [Mini\Controllers\UserProfilController::class, "ProfileUser"]]
 ];
 // Bootstrap du router
 $router = new Router($routes);
