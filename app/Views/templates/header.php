@@ -18,6 +18,7 @@
                 ?>
                 <div>
                     <p>User : <span><?= htmlspecialchars($_SESSION['username'])?></span> </p>
+                    <a href="users/logout">Se déconnecter</a>
                 </div>
                 <?php
             } else {

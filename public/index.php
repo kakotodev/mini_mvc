@@ -21,6 +21,8 @@ $routes = [
     ['GET', '/products/create', [Mini\Controllers\ProductController::class, 'showCreateProductForm']],
     ['POST', '/products', [Mini\Controllers\ProductController::class, 'createProduct']],
     ['GET', '/computers', [Mini\Controllers\ComputerProductController::class, "listComputerProducts"]],
+    ['GET', '/users/logout', [Mini\Controllers\UserLogoutController::class, "logoutUser"]],
+    ['GET', '/users/logout', [Mini\Controllers\UserLogoutController::class, "showLogoutUserForm"]]
 ];
 // Bootstrap du router
 $router = new Router($routes);
