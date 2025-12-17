@@ -1,4 +1,5 @@
 <div>
+    <h1></h1>
     <?php
         if(isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true){
             ?>
@@ -6,7 +7,7 @@
                 <div>
                     <h2>Votre Panier :</h2>
                     <?php
-                        require_once __DIR__ . '/user-panier.php'
+                        require __DIR__ . '/user-panier.php'
                     ?>
                 </div>
                 <hr>

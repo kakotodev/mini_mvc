@@ -5,7 +5,7 @@
     <!-- Message de succès ou d'erreur -->
     <div id="message" style="display: none; padding: 10px; margin-bottom: 20px; border-radius: 4px;"></div>
     
-    <form id="createUserForm" action="/users" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+    <form id="createUserForm" action="/users/create" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
         <div>
             <label for="nom" style="display: block; margin-bottom: 5px; font-weight: bold;">Nom :</label>
             <input 
@@ -87,17 +87,17 @@ document.getElementById('createUserForm').addEventListener('submit', async funct
     messageCreateUserDiv.textContent = 'Création en cours...';
     
     try {
-        // Envoie la requête POST avec les données en JSON
-        const response = await fetch('/users', {
+        // Envoie la requête POS    T avec les données en JSON
+        const response = await fetch('/users/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 nom: nom,
-                email: email
-                password: password
-                confirmed: confirmedpassword
+                email: email,
+                password: password,
+                confirmedpassword: confirmedpassword
             })
         });
         
@@ -110,7 +110,7 @@ document.getElementById('createUserForm').addEventListener('submit', async funct
             messageCreateUserDiv.textContent = '✅ ' + data.message;
             
             // Réinitialise le formulaire
-            document.getElementById('userForm').reset();
+            document.getElementById('createUserForm').reset();
         } else {
             // Erreur
             messageCreateUserDiv.style.backgroundColor = '#f8d7da';

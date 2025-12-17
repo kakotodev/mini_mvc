@@ -5,31 +5,26 @@ namespace Mini\Controllers;
 use Mini\Core\Controller;
 use Mini\Models\User;
 
-// Déclare la classe finale HomeController qui hérite de Controller
-final class UserCreateController extends Controller
-{
-    public function users(): void
-    {
-        // Récupère tous les utilisateurs
-        $users = User::getAll();
-        
-        // Définit le header Content-Type pour indiquer que la réponse est du JSON
-        header('Content-Type: application/json; charset=utf-8');
-        
-        // Encode les données en JSON et les affiche
-        echo json_encode($users, JSON_PRETTY_PRINT);
-    }
+final class UserController extends Controller {
 
-    public function showCreateUserForm(): void
-    {
+    public function showCreateUserForm(): void{
         // Affiche le formulaire de création d'utilisateur
         $this->render('home/create-user', params: [
             'title' => 'Créer un utilisateur'
         ]);
     }
+    public function showLoginUserform(): void{
+        $this->render('home/login-user', params:[
+            'title' => 'Connectez à un compte'
+        ]);
+    }
+    public function showLogoutUserForm(): void{
+        $this->render('home/logout-user', parmams:[
+            'title' => 'Se deconnecter à un compte'
+        ]);
+    }
 
-    public function createUser(): void
-    {
+    public function createUser(): void{
         // Définit le header Content-Type pour indiquer que la réponse est du JSON
         header('Content-Type: application/json; charset=utf-8');
         
@@ -90,9 +85,78 @@ final class UserCreateController extends Controller
                     'password' => $user->getMdp()
                 ]
             ], JSON_PRETTY_PRINT);
+            exit;
+
         } else {
             http_response_code(500);
             echo json_encode(['error' => 'Erreur lors de la création de l\'utilisateur.'], JSON_PRETTY_PRINT);
+            return;
         }
     }
+    public function loginUser(): void{
+        header('Content-Type: application/json; charset=utf-8');
+
+        if($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['error' => 'Méthode non autorisée. Utilisez POST'], JSON_PRETTY_PRINT);
+            return;
+        }
+
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if($input === null) {
+            $input = $_POST;
+        }
+
+
+        if (empty($input['loginEmail']) || empty($input['loginPassword'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Les champs "email" et "password" sont requis.'], JSON_PRETTY_PRINT);
+            return;
+        }
+
+        if (!filter_var($input['loginEmail'], FILTER_VALIDATE_EMAIL)) {
+            http_response_code(400);
+            echo json_encode(['error' => "Format d'email invalide."], JSON_PRETTY_PRINT);
+            return;
+        }
+        
+        // Mise en place du login
+
+        $user = User::findByEmail($input['loginEmail']); 
+
+        if ($user && password_verify($input['loginPassword'], $user['mdp'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION ['username'] = $user['nom'];
+            $_SESSION['is_logged_in'] = true;
+
+            session_regenerate_id(true);
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Connexion réussie.',
+                'user' => [
+                    'email' => $user['email']
+                ]
+            ], JSON_PRETTY_PRINT);
+            exit;
+        }
+        else {
+            http_response_code(400);
+            echo json_encode(['error' => 'Le mot de passe n\'est pas bon']);
+            return;
+        }
+    }
+    public function LogoutUser(): void{
+
+        header('Content-Type: application/json; charset=utf-8');
+
+        session_unset();
+        session_destroy();
+
+        header('Location: /');
+
+    }    
 }
+
+?>

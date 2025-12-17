@@ -49,7 +49,7 @@ class Panier{
      */
     public static function getAll(){
         $pdo = Database::getPDO();
-        $stmt = $pdo-query("SELECT * FROM panier ORDER BY id ASC");
+        $stmt = $pdo->query("SELECT * FROM panier ORDER BY id ASC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -58,7 +58,7 @@ class Panier{
      * @return array|null
      */
     public static function selectAllByID(int $id): array{
-        $pdo = Databse::getPDO();
+        $pdo = Database::getPDO();
         $stmt = $pdo->prepare("SELECT * FROM panier WHERE utilisateur_id = ?");
         $stmt->execute([$id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

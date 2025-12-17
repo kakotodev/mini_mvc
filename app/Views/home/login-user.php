@@ -48,7 +48,7 @@ document.getElementById('loginUserForm').addEventListener('submit', async functi
 
         const data = await response.json();
 
-        if (response.ok && data.success) {
+        if (response.ok && data.success) {  
             messageLoginUserDiv.style.backgroundColor = '#d4edda';
             messageLoginUserDiv.style.color = '#155724';
             messageLoginUserDiv.textContent = '✅ ' + data.message;

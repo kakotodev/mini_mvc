@@ -11,22 +11,31 @@ use Mini\Core\Router;
 // Table des routes minimaliste
 $routes = [
 
+    // Accueil
     ['GET', '/', [Mini\Controllers\HomeController::class, 'index']],
-    ['GET', '/users', [Mini\Controllers\HomeController::class, 'users']],
-    ['POST', '/users', [Mini\Controllers\UserCreateController::class, 'createUser']],
-    ['POST', '/users/login', [Mini\Controllers\UserLoginController::class, 'loginUser']],
-    ['GET', '/users/login', [Mini\Controllers\UserLoginController::class, 'showLoginUserForm']],
-    ['GET', '/users/create', [Mini\Controllers\UserCreateController::class, 'showCreateUserForm']],
+
+    // Inscription, Connexion, Logout
+
+    ['GET', '/users/login', [Mini\Controllers\UserController::class, 'showLoginUserForm']],
+    ['POST', '/users/login', [Mini\Controllers\UserController::class, 'loginUser']],
+
+    ['GET', '/users/create', [Mini\Controllers\UserController::class, 'showCreateUserForm']],
+    ['POST', '/users/create', [Mini\Controllers\UserController::class, 'createUser']],
+
+    ['GET', '/users/logout', [Mini\Controllers\UserController::class, "logoutUser"]],
+    ['GET', '/users/logout', [Mini\Controllers\UserController::class, "showLogoutUserForm"]],
+
+    // Autres
     ['GET', '/products', [Mini\Controllers\ProductController::class, 'listProducts']],
     ['GET', '/products/create', [Mini\Controllers\ProductController::class, 'showCreateProductForm']],
+
     ['POST', '/products', [Mini\Controllers\ProductController::class, 'createProduct']],
     ['GET', '/computers', [Mini\Controllers\ComputerProductController::class, "listComputerProducts"]],
-    ['GET', '/users/logout', [Mini\Controllers\UserLogoutController::class, "logoutUser"]],
-    ['GET', '/users/logout', [Mini\Controllers\UserLogoutController::class, "showLogoutUserForm"]],
+
     ['GET', '/users/profile', [Mini\Controllers\UserProfilController::class, "showProfileUserForm"]],
     ['GET', '/users/profile', [Mini\Controllers\UserProfilController::class, "ProfileUser"]],
     ['POST', '/computers', [Mini\Controllers\ComputerProductController::class, "addPanierComputerProducts"]],
-    ['GET', '/users/profile', [Mini\Controllers\PanierController::class, "showPanierForm"]],
+    ['GET', '/users/profile', [Mini\Controllers\PanierController::class, "showPanierUser"]],
     
 ];
 // Bootstrap du router
