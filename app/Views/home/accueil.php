@@ -2,7 +2,7 @@
 <p>Bienvenue sur le mini MVC. Tout fonctionne ✅</p>
 
 <?php
-    var_dump($_SESSION['user_id']);
+    var_dump($_SESSION);
 ?>
 
 

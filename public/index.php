@@ -25,6 +25,11 @@ $routes = [
     ['GET', '/users/logout', [Mini\Controllers\UserController::class, "logoutUser"]],
     ['GET', '/users/logout', [Mini\Controllers\UserController::class, "showLogoutUserForm"]],
 
+    // Panier
+
+    ['GET', '/users/panier', [Mini\Controllers\PanierController::class, "showPanierUser"]],
+
+
     // Autres
     ['GET', '/products', [Mini\Controllers\ProductController::class, 'listProducts']],
     ['GET', '/products/create', [Mini\Controllers\ProductController::class, 'showCreateProductForm']],
@@ -35,7 +40,6 @@ $routes = [
     ['GET', '/users/profile', [Mini\Controllers\UserProfilController::class, "showProfileUserForm"]],
     ['GET', '/users/profile', [Mini\Controllers\UserProfilController::class, "ProfileUser"]],
     ['POST', '/computers', [Mini\Controllers\ComputerProductController::class, "addPanierComputerProducts"]],
-    ['GET', '/users/profile', [Mini\Controllers\PanierController::class, "showPanierUser"]],
     
 ];
 // Bootstrap du router

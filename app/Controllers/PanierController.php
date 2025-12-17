@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mini\Controller;
+namespace Mini\Controllers;
 
 use Mini\Core\Controller;
 use Mini\Models\Panier;
@@ -11,14 +11,18 @@ final class PanierController extends Controller {
 
     public function showPanierUser(): void {
 
-        die('Le controleur est bien mort');
+        if(isset($_SESSION['is_logged_in']) && $_SESSION === true){
+            $panier = Panier::selectAllByID($_SESSION['user_id']);
 
-        $panier = Panier::selectAllByID($_SESSION['user_id']);
-        echo var_dump($panier);
-        $this->render('profile/user-panier', params: [
-            'title' => "Panier actuelle de l'utilisateur",
-            'panier' => $panier,
-            'test' => 'test'
-        ]);
+            $this->render('panier/user-panier', params: [
+                'title' => "Panier actuelle de l'utilisateur",
+                'panier' => $panier,
+                'test' => 'test'
+            ]);            
+        }else{
+                $this->render('panier/user-panier', params: [
+                'title' => "Panier actuelle de l'utilisateur",
+            ]);         
+        }
     }
 }

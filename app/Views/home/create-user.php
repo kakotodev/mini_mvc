@@ -71,7 +71,6 @@
 // Gestion de la soumission du formulaire
 document.getElementById('createUserForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    console.log(e);
 
     // Récupère les valeurs du formulaire
     const nom = document.getElementById('nom').value.trim();

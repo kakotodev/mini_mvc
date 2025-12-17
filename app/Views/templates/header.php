@@ -29,6 +29,7 @@
                 <div>
                     <p>User : <span><?= htmlspecialchars($_SESSION['username'])?></span> </p>
                     <a href="/users/profile">Votre profile</a>
+                    <a href="/users/panier">Panier</a>
                 </div>
                 <?php
             } else {
