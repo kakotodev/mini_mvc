@@ -64,6 +64,17 @@ class Panier{
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function showPanierByIDUser($id) {
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare(
+                            "SELECT ordinateurproduit.nom, ordinateurproduit.prix, ordinateurproduit.url_img, panier.id
+                            FROM panier
+                            INNER JOIN ordinateurproduit ON panier.produit_id = ordinateurproduit.id_ordinateur
+                            WHERE panier.utilisateur_id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     /**
      * @return bool
      */

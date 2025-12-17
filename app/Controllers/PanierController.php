@@ -14,7 +14,7 @@ final class PanierController extends Controller {
         
 
         if(isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true){
-            $products = Panier::selectAllByID(9);
+            $products = Panier::showPanierByIDUser($_SESSION['user_id']);
 
             $this->render('panier/user-panier', params: [
                 'title' => "Panier actuelle de l'utilisateur",

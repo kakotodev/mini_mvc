@@ -9,9 +9,10 @@
         </div>
     <?php else: ?>
         <div>
+            <?php var_dump($products)?>
+
             <?php foreach ($products as $product): ?>
                 <div>
-                    <p><?= htmlspecialchars($product['produit_id'])?></p>
                 </div>
             <?php endforeach ?>
         </div>
