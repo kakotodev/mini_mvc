@@ -2,13 +2,14 @@
     <?php
     if(isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true){
     ?>
-        <?php if (empty($panier) ): ?>
+        <?php if (empty($products) ): ?>
         <div>
             <p>Votre panier est vide</p>
+            <?= htmlspecialchars($title)?>
         </div>
     <?php else: ?>
         <div>
-            <?php foreach ($panier as $product): ?>
+            <?php foreach ($products as $product): ?>
                 <div>
                     <p><?= htmlspecialchars($product['produit_id'])?></p>
                 </div>

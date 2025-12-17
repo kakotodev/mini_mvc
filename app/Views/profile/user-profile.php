@@ -9,7 +9,7 @@
             <?php
         }else{
             ?>
-                <p>Veuillez vous connecter à votre compté / Crée votre compte pour voir votre profile</p>
+                <p>Veuillez vous connecter à votre compte / Crée votre compte pour voir votre profile</p>
             <?php
         }
     ?>

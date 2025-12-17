@@ -10,18 +10,20 @@ use Mini\Models\Panier;
 final class PanierController extends Controller {
 
     public function showPanierUser(): void {
+        
+        
 
-        if(isset($_SESSION['is_logged_in']) && $_SESSION === true){
-            $panier = Panier::selectAllByID($_SESSION['user_id']);
+        if(isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true){
+            $products = Panier::selectAllByID(9);
 
             $this->render('panier/user-panier', params: [
                 'title' => "Panier actuelle de l'utilisateur",
-                'panier' => $panier,
-                'test' => 'test'
+                'products' => $products,
             ]);            
         }else{
                 $this->render('panier/user-panier', params: [
                 'title' => "Panier actuelle de l'utilisateur",
+            
             ]);         
         }
     }

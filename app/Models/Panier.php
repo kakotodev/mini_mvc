@@ -57,7 +57,7 @@ class Panier{
      * @param int
      * @return array|null
      */
-    public static function selectAllByID(int $id): array{
+    public static function selectAllByID($id) {
         $pdo = Database::getPDO();
         $stmt = $pdo->prepare("SELECT * FROM panier WHERE utilisateur_id = ?");
         $stmt->execute([$id]);

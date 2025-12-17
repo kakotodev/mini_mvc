@@ -104,7 +104,7 @@ class Product
         $pdo = Database::getPDO();
         $stmt = $pdo->prepare("SELECT * FROM produit WHERE id = ?");
         $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
