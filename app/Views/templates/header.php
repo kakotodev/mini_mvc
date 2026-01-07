@@ -6,7 +6,6 @@
         <nav>
             <li>
                 <a href="/">accueil</a>
-                <a href="/products">Les PCs</a>
                 <a href="/computers">Les vrais PCs</a>
                 <?php
                     if(isset($_SESSION['is_logged_in'])&& $_SESSION['is_logged_in'] === true) {
