@@ -23,6 +23,11 @@ final class UserController extends Controller {
             'title' => 'Se deconnecter à un compte'
         ]);
     }
+    public function showProfileUserForm(): void{
+        $this->render('profile/user-profile', params:[
+            'title'=> 'Informations de vos profils'
+        ]);
+    }
 
     public function createUser(): void{
         // Définit le header Content-Type pour indiquer que la réponse est du JSON
@@ -157,6 +162,26 @@ final class UserController extends Controller {
         header('Location: /');
 
     }    
+    public function ProfileUser(): void{
+
+        header('Content-Type: application/json; charset=utf-8');
+
+        if(isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true){
+            $user_id = $_SESSION['user_id'];
+            $username = $_SESSION['username'];
+            echo json_encode([
+                'user' => [
+                    'user_id' => $user_id,
+                    'username' => $username
+                ]
+            ], JSON_PRETTY_PRINT);
+            exit;
+        }else{
+            http_response_code(400);
+            echo json_encode(['error' => "Veuillez vous connecter"], JSON_PRETTY_PRINT);
+            return;
+        }
+    }
 }
 
 ?>

@@ -24,6 +24,9 @@ $routes = [
 
     ['GET', '/users/logout', [Mini\Controllers\UserController::class, "logoutUser"]],
     ['GET', '/users/logout', [Mini\Controllers\UserController::class, "showLogoutUserForm"]],
+    
+    ['GET', '/users/profile', [Mini\Controllers\UserController::class, "showProfileUserForm"]],
+    ['GET', '/users/profile', [Mini\Controllers\UserController::class, "ProfileUser"]],
 
     // Panier
 
@@ -37,8 +40,6 @@ $routes = [
     ['POST', '/products', [Mini\Controllers\ProductController::class, 'createProduct']],
     ['GET', '/computers', [Mini\Controllers\ComputerProductController::class, "listComputerProducts"]],
 
-    ['GET', '/users/profile', [Mini\Controllers\UserProfilController::class, "showProfileUserForm"]],
-    ['GET', '/users/profile', [Mini\Controllers\UserProfilController::class, "ProfileUser"]],
     ['POST', '/computers', [Mini\Controllers\ComputerProductController::class, "addPanierComputerProducts"]],
     
 ];
