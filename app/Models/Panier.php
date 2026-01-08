@@ -10,6 +10,7 @@ class Panier{
     private $id;
     private $utilisateur_id;
     private $produit_id;
+    private $quantity;
     private $status;
 
     public function getId(){
@@ -34,6 +35,14 @@ class Panier{
 
     public function setProduitID($produit_id){
         $this->produit_id = $produit_id;
+    }
+
+    public function getQuantity(){
+        return $this->quantity;
+    }
+    
+    public function setQuantity($quantity){
+        $this->quantity = $quantity;
     }
 
     public function getStatus(){
@@ -67,12 +76,34 @@ class Panier{
     public static function showPanierByIDUser($id) {
         $pdo = Database::getPDO();
         $stmt = $pdo->prepare(
-                            "SELECT ordinateurproduit.nom, ordinateurproduit.prix, ordinateurproduit.url_img, panier.id
+                            "SELECT ordinateurproduit.nom, ordinateurproduit.prix, ordinateurproduit.url_img, ordinateurproduit.id_ordinateur, ordinateurproduit.composants, panier.id, quantity
                             FROM panier
                             INNER JOIN ordinateurproduit ON panier.produit_id = ordinateurproduit.id_ordinateur
-                            WHERE panier.utilisateur_id = ?");
+                            WHERE panier.utilisateur_id = ? AND panier.status = 'En cours'");
         $stmt->execute([$id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @param int $userId
+     * @param int $productId
+     * @return bool
+     */
+    public static function delete(int $userId, int $panierId): bool {
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare("DELETE FROM panier WHERE utilisateur_id = ? AND id = ?");
+        return $stmt->execute([$userId, $panierId]);
+    }
+
+    /**
+     * @param int $userId
+     * @param int $panierId
+     * @return bool
+     */
+    public static function abandon(int $userId, int $panierId): bool {
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare("UPDATE panier SET status = 'Abandon' WHERE utilisateur_id = ? AND id = ?");
+        return $stmt->execute([$userId, $panierId]);
     }
 
     /**
@@ -80,11 +111,12 @@ class Panier{
      */
     public function save(){
         $pdo = Database::getPDO();
-        $stmt = $pdo->prepare("INSERT INTO panier(utilisateur_id, produit_id, status) VALUES (?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO panier(utilisateur_id, produit_id, status, quantity) VALUES (?, ?, ?, ?)");
         return $stmt->execute([
             $this->utilisateur_id,
             $this->produit_id,
-            $this->status
+            $this->status,
+            $this->quantity
         ]);
     }
 
@@ -93,10 +125,11 @@ class Panier{
      */
     public function update(){
         $pdo = Database::getPDO();
-        $stmt = $pdo->prepare("UPDATE produit SET utilisateur_id = ?, produit_id = ?, status = ? WHERE id = ?");
+        $stmt = $pdo->prepare("UPDATE panier SET utilisateur_id = ?, produit_id = ?, quantity = ?, status = ? WHERE id = ?");
         return $stmt->execute([
             $this->utilisateur_id,
             $this->produit_id,
+            $this->quantity,
             $this->status,
             $this->id
         ]);

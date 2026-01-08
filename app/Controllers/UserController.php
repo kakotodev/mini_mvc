@@ -80,14 +80,22 @@ final class UserController extends Controller {
         
         // Sauvegarde l'utilisateur
         if ($user->save()) {
+            // Auto-login: Retrieve the created user to get the ID
+            $createdUser = User::findByEmail($input['email']);
+            if ($createdUser) {
+                $_SESSION['user_id'] = $createdUser['id'];
+                $_SESSION['username'] = $createdUser['nom'];
+                $_SESSION['role'] = $createdUser['role'] ?? 'Membre';
+                $_SESSION['is_logged_in'] = true;
+            }
+
             http_response_code(201);
             echo json_encode([
                 'success' => true,
-                'message' => 'Utilisateur créé avec succès.',
+                'message' => 'Utilisateur créé avec succès. Connexion automatique...',
                 'user' => [
                     'nom' => $user->getnom(),
                     'email' => $user->getEmail(),
-                    'password' => $user->getMdp()
                 ]
             ], JSON_PRETTY_PRINT);
             exit;
@@ -133,6 +141,7 @@ final class UserController extends Controller {
         if ($user && password_verify($input['loginPassword'], $user['mdp'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION ['username'] = $user['nom'];
+            $_SESSION['role'] = $user['role'] ?? 'Membre'; // Default to Membre if null
             $_SESSION['is_logged_in'] = true;
 
             session_regenerate_id(true);

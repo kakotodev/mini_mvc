@@ -76,9 +76,29 @@ class ComputerProduct {
     /**
      * @return array
      */
-    public static function getAll(){
+    public static function getAll($sort = 'default'){
         $pdo = Database::getPDO();
-        $stmt = $pdo->query("SELECT * FROM ordinateurproduit ORDER BY id_ordinateur ASC");
+        $query = "SELECT * FROM ordinateurproduit";
+        
+        switch($sort) {
+            case 'price_asc':
+                $query .= " ORDER BY prix ASC";
+                break;
+            case 'price_desc':
+                $query .= " ORDER BY prix DESC";
+                break;
+            case 'stock_asc':
+                $query .= " ORDER BY stock ASC";
+                break;
+            case 'stock_desc':
+                $query .= " ORDER BY stock DESC";
+                break;
+            default:
+                $query .= " ORDER BY id_ordinateur ASC";
+                break;
+        }
+
+        $stmt = $pdo->query($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -86,10 +106,11 @@ class ComputerProduct {
      * @param int
      * @return array|null
      */
-    public static function selectByID(){
-        $pdo = Databse::getPDO();
-        $stmt = $pdo->query("SELECT * FROM ordinateurproduit BY ?");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public static function selectByID($id){
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare("SELECT * FROM ordinateurproduit WHERE id_ordinateur = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -97,7 +118,7 @@ class ComputerProduct {
      */
     public function save(){
         $pdo = Database::getPDO();
-        $stmt = $pdo->prepare("INSERT INTO ordinateurproduit(nom, prix, description, composants, stock, url_img");
+        $stmt = $pdo->prepare("INSERT INTO ordinateurproduit(nom, prix, description, composants, stock, url_img) VALUES (?, ?, ?, ?, ?, ?)");
         return $stmt->execute([
             $this->nom,
             $this->prix,
@@ -112,7 +133,7 @@ class ComputerProduct {
      */
     public function update(){
         $pdo = Database::getPDO();
-        $stmt = $pdo->prepare("UPDATE produit SET nom = ?, prix = ?, description = ?, composants = ?, stock = ?, url_img = ? WHERE id = ?");
+        $stmt = $pdo->prepare("UPDATE ordinateurproduit SET nom = ?, prix = ?, description = ?, composants = ?, stock = ?, url_img = ? WHERE id_ordinateur = ?");
         return $stmt->execute([
             $this->nom,
             $this->prix,
@@ -120,7 +141,7 @@ class ComputerProduct {
             $this->composants,
             $this->stock,
             $this->url_img,
-            $this->id
+            $this->id_ordinateur
         ]);
     }
 
@@ -134,4 +155,22 @@ class ComputerProduct {
         return $stmt->execute([$this->id]);
     }
 
+    public static function decrementStock(int $id, int $quantity): bool {
+        $pdo = Database::getPDO();
+        // Prevent negative stock
+        $stmt = $pdo->prepare("UPDATE ordinateurproduit SET stock = stock - ? WHERE id_ordinateur = ? AND stock >= ?");
+        return $stmt->execute([$quantity, $id, $quantity]);
+    }
+
+    public static function updateStock(int $id, int $newStock): bool {
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare("UPDATE ordinateurproduit SET stock = ? WHERE id_ordinateur = ?");
+        return $stmt->execute([$newStock, $id]);
+    }
+
+    public static function updateInline(int $id, string $nom, float $prix, int $stock): bool {
+        $pdo = Database::getPDO();
+        $stmt = $pdo->prepare("UPDATE ordinateurproduit SET nom = ?, prix = ?, stock = ? WHERE id_ordinateur = ?");
+        return $stmt->execute([$nom, $prix, $stock, $id]);
+    }
 }

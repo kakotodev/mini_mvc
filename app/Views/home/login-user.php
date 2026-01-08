@@ -1,21 +1,27 @@
-<div>
-    <h2>Connectez vous</h2>
+<div class="container auth-container">
+    <div class="auth-card">
+        <h2 class="auth-title">Connexion</h2>
+        
+        <div id="message" style="display: none;" class="alert"></div>
 
-    <div id="message" style="display: none; padding: 10px; margin-bottom: 20px; border-radius: 4px;"></div>
-
-
-    <form id="loginUserForm">
-        <div>
-            <label for="email">Email :</label>
-            <input type="email" id="email" name="email">
+        <form id="loginUserForm">
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="exemple@email.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">Mot de passe</label>
+                <input type="password" id="password" name="password" class="form-input" placeholder="Votre mot de passe" required>
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">Se connecter</button>
+        </form>
+        
+        <div class="auth-footer">
+            Pas encore de compte ? <a href="/users/create">Créer un compte</a>
         </div>
-        <div>
-            <label for="password">Mot de passe :</label>
-            <input type="password" id="password" name="password">
-        </div>
-        <button type="submit">Connecter</button>
-    </form>
-    <a href="/users/create">Crée un utilisateurs</a>
+    </div>
 </div>
 
 <script>
@@ -52,6 +58,11 @@ document.getElementById('loginUserForm').addEventListener('submit', async functi
             messageLoginUserDiv.style.backgroundColor = '#d4edda';
             messageLoginUserDiv.style.color = '#155724';
             messageLoginUserDiv.textContent = '✅ ' + data.message;
+            
+            // Redirect to home
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1000);
         } else {
             messageLoginUserDiv.style.backgroundColor = '#f8d7da';
             messageLoginUserDiv.style.color = '#721c24';

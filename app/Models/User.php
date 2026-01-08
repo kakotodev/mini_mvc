@@ -12,6 +12,7 @@ class User
     private $nom;
     private $email;
     private $mdp;
+    private $role;
 
     // =====================
     // Getters / Setters
@@ -53,6 +54,14 @@ class User
 
     public function setMdp($mdp){
         $this->mdp = $mdp;
+    }
+
+    public function getRole(){
+        return $this->role;
+    }
+
+    public function setRole($role){
+        $this->role = $role;
     }
 
     // =====================
@@ -103,7 +112,7 @@ class User
     public function save()
     {
         $pdo = Database::getPDO();
-        $stmt = $pdo->prepare("INSERT INTO user (nom, email, mdp) VALUES (?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO user (nom, email, mdp, role) VALUES (?, ?, ?, 'Membre')");
         return $stmt->execute([$this->nom, $this->email, $this->mdp]);
     }
 

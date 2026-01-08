@@ -1,69 +1,36 @@
-<!-- Formulaire pour créer un nouvel utilisateur -->
-<div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-    <h2>Ajouter un nouvel utilisateur</h2>
-    
-    <!-- Message de succès ou d'erreur -->
-    <div id="message" style="display: none; padding: 10px; margin-bottom: 20px; border-radius: 4px;"></div>
-    
-    <form id="createUserForm" action="/users/create" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
-        <div>
-            <label for="nom" style="display: block; margin-bottom: 5px; font-weight: bold;">Nom :</label>
-            <input 
-                type="text" 
-                id="nom" 
-                name="nom" 
-                required 
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
-                placeholder="Entrez le nom de l'utilisateur"
-            >
-        </div>
+<div class="container auth-container">
+    <div class="auth-card">
+        <h2 class="auth-title">Créer un compte</h2>
         
-        <div>
-            <label for="email" style="display: block; margin-bottom: 5px; font-weight: bold;">Email :</label>
-            <input 
-                type="email" 
-                id="email" 
-                name="email" 
-                required 
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
-                placeholder="exemple@email.com"
-            >
-        </div>
+        <div id="message" style="display: none;" class="alert"></div>
 
-        <div>
-            <label for="password" style="display: block; margin-bottom: 5px; font-weight: bold;">Mot de passe :</label>
-            <input 
-                type="password" 
-                id="password" 
-                name="password" 
-                required 
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
-            >
-        </div>
-        <div>
-            <label for="confirmedpassword" style="display: block; margin-bottom: 5px; font-weight: bold;">Confirmé votre mot de passe :</label>
-            <input 
-                type="password" 
-                id="confirmedpassword" 
-                name="confirmedpassword" 
-                required 
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
-            >
-        </div>
+        <form id="createUserForm">
+            <div class="form-group">
+                <label for="nom" class="form-label">Nom</label>
+                <input type="text" id="nom" name="nom" class="form-input" placeholder="Votre nom" required>
+            </div>
 
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="exemple@email.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">Mot de passe</label>
+                <input type="password" id="password" name="password" class="form-input" placeholder="Votre mot de passe" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmedpassword" class="form-label">Confirmer le mot de passe</label>
+                <input type="password" id="confirmedpassword" name="confirmedpassword" class="form-input" placeholder="Confirmez votre mot de passe" required>
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">S'inscrire</button>
+        </form>
         
-        <button 
-            type="submit" 
-            style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;"
-            onmouseover="this.style.backgroundColor='#0056b3'" 
-            onmouseout="this.style.backgroundColor='#007bff'"
-        >
-            Créer l'utilisateur
-        </button>
-    </form>
-    
-    <div style="margin-top: 20px;">
-        <a href="/" style="color: #007bff; text-decoration: none;">← Retour à l'accueil</a>
+        <div class="auth-footer">
+            Déjà un compte ? <a href="/users/login">Se connecter</a>
+        </div>
     </div>
 </div>
 
@@ -108,8 +75,10 @@ document.getElementById('createUserForm').addEventListener('submit', async funct
             messageCreateUserDiv.style.color = '#155724';
             messageCreateUserDiv.textContent = '✅ ' + data.message;
             
-            // Réinitialise le formulaire
-            document.getElementById('createUserForm').reset();
+            // Redirect to home
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1000);
         } else {
             // Erreur
             messageCreateUserDiv.style.backgroundColor = '#f8d7da';
