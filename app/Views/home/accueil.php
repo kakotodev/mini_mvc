@@ -27,11 +27,12 @@
     </div>
 </div>
 
-<div style="background: #f1f5f9; padding: 1rem; border-radius: var(--radius); font-family: monospace; font-size: 0.8rem; overflow-x: auto;">
-    <p style="font-weight: bold; margin-bottom: 0.5rem;">Debug Session:</p>
-    <?php
-        var_dump($_SESSION);
-    ?>
+<div style="background: #f1f5f9; padding: 1rem; border-radius: var(--radius); font-family: monospace; font-size: 0.9rem; overflow-x: auto; border: 1px solid #e2e8f0;">
+    <p style="font-weight: bold; margin-bottom: 0.5rem; color: var(--primary-color);">Compte Admin (Démo) :</p>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="margin-bottom: 0.25rem;"><strong>Email :</strong> admin@admin.com</li>
+        <li><strong>Mot de passe :</strong> admin</li>
+    </ul>
 </div>
 
 
