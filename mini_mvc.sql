@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 08 jan. 2026 à 12:44
+-- Généré le : dim. 11 jan. 2026 à 00:41
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -59,17 +59,19 @@ CREATE TABLE `ordinateurproduit` (
   `description` text NOT NULL,
   `composants` text NOT NULL,
   `stock` int(11) NOT NULL,
-  `url_img` text NOT NULL
+  `url_img` text NOT NULL,
+  `disponible` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `ordinateurproduit`
 --
 
-INSERT INTO `ordinateurproduit` (`id_ordinateur`, `nom`, `prix`, `description`, `composants`, `stock`, `url_img`) VALUES
-(1, 'PC POUR LES PAUVRES', 799.99, 'PC pour les personnes à petit budget, parfait pour jouer à des jeux compétitifs en 1080p parfaitement et peux jouer au dernier triple AAA.', 'GPU : RTX 5060 8GB VRAM\r\nCPU : Ryzen 5 5600x\r\nCarte Mère : MSI B550 Gaming Plus Wifi6E\r\nRam : Corsair Vengeance 16GB DDR4\r\nSSD : 1to \r\n', 50, 'https://www.flowup.shop/web/image/product.product/7375/image_1024/PC%20Banger%20GEFORCE%20RTX%E2%84%A2%205060%20(16GB%20DDR4,%20SSD%20500Go%20M.2)?unique=1eb2b1e'),
-(2, 'PC MID TIER', 1149.99, 'PC parfait pour jouer tout les jeux fluides en 1080p et même en 1440p ! ', 'GPU : RTX 5060 16GB VRAM \r\nCPU : Ryzen 5 9600x \r\nCarte Mère : MSI B850 Gaming Plus Wifi6E Ram : Corsair Vengeance 32GB DDR5 \r\nSSD : 1to\r\n', 10, 'https://www.flowup.shop/web/image/product.product/7402/image_1024/PC%20Savannah%20V2%20GeForce%20RTX%E2%84%A2%205060%20Ti%208GB%20%20(SSD%20500Go%20M.2)?unique=ae9c05a'),
-(3, 'PC PREMIUM', 4999.99, 'PC de walide ', 'GPU : RTX 590 32GB VRAM \nCPU : Ultra 9 285K\nCarte Mère : MSI MPG Z890 Carbon WIFI DDR5\nRam : 64GB DDR5\nSSD : 1to\n', 3, 'https://www.flowup.shop/web/image/product.product/7277/image_1024/PC%20Touch%20Ultimate%20GEFORCE%20RTX%E2%84%A2%205090%20(Samsung%20990%20EVO%20Plus%202To)?unique=a14079e');
+INSERT INTO `ordinateurproduit` (`id_ordinateur`, `nom`, `prix`, `description`, `composants`, `stock`, `url_img`, `disponible`) VALUES
+(1, 'PC La Maison', 900.00, 'PC pour les personnes à petit budget, parfait pour jouer à des jeux compétitifs en 1080p parfaitement et peux jouer au dernier triple AAA.', 'GPU : RTX 5060 8GB VRAM\nCPU : Ryzen 5 5600x\nCarte Mère : MSI B550 Gaming Plus Wifi6E\nRam : Corsair Vengeance 16GB DDR4\nSSD : 1to \n', 20, 'https://www.flowup.shop/web/image/product.product/7375/image_1024/PC%20Banger%20GEFORCE%20RTX%E2%84%A2%205060%20(16GB%20DDR4,%20SSD%20500Go%20M.2)?unique=1eb2b1e', 'disponible'),
+(2, 'PC Factory', 1149.99, 'PC parfait pour jouer tout les jeux fluides en 1080p et même en 1440p ! ', 'GPU : RTX 5060 16GB VRAM \nCPU : Ryzen 5 9600x \nCarte Mère : MSI B850 Gaming Plus Wifi6E Ram : Corsair Vengeance 32GB DDR5 \nSSD : 1to\n', 10, 'https://www.flowup.shop/web/image/product.product/7402/image_1024/PC%20Savannah%20V2%20GeForce%20RTX%E2%84%A2%205060%20Ti%208GB%20%20(SSD%20500Go%20M.2)?unique=ae9c05a', 'disponible'),
+(3, 'PC L\'Aquarium', 4999.99, 'PC de walide ', 'GPU : RTX 5090 32GB VRAM \nCPU : Ultra 9 285K\nCarte Mère : MSI MPG Z890 Carbon WIFI DDR5\nRam : 64GB DDR5\nSSD : 1to\n', 0, 'https://www.flowup.shop/web/image/product.product/7277/image_1024/PC%20Touch%20Ultimate%20GEFORCE%20RTX%E2%84%A2%205090%20(Samsung%20990%20EVO%20Plus%202To)?unique=a14079e', 'disponible'),
+(5, 'PC New Republic', 3099.99, 'PC de haut qualité', 'GPU : RTX 5080 16GB VRAM \nCPU : Ryzen 7 9800X3D\nCarte Mère : MSI MPG Z890 Carbon WIFI DDR5\nRam : 64GB DDR5\nSSD : 1to', 20, 'https://www.flowup.shop/web/image/product.product/7006/image_1024/PC%20Orion%20GEFORCE%20RTX%E2%84%A2%205080%20%20(AMD%20Ryzen%E2%84%A2%207%207800X3D,%20Hyte%20Y60%20Black,%20Aucun)?unique=42f0436', 'disponible');
 
 -- --------------------------------------------------------
 
@@ -96,7 +98,8 @@ INSERT INTO `panier` (`id`, `utilisateur_id`, `produit_id`, `quantity`, `status`
 (21, 9, 2, 3, 'Payé'),
 (22, 9, 2, 3, 'Confirmé'),
 (23, 9, 1, 7, 'Confirmé'),
-(24, 9, 3, 2, 'Confirmé');
+(24, 9, 3, 2, 'Confirmé'),
+(25, 9, 2, 1, 'En cours');
 
 -- --------------------------------------------------------
 
@@ -166,13 +169,13 @@ ALTER TABLE `historiqueachat`
 -- AUTO_INCREMENT pour la table `ordinateurproduit`
 --
 ALTER TABLE `ordinateurproduit`
-  MODIFY `id_ordinateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_ordinateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `panier`
 --
 ALTER TABLE `panier`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT pour la table `user`
