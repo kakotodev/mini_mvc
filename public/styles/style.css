@@ -392,6 +392,8 @@ tr:hover {
     width: 90%;
     transform: translateY(20px);
     transition: transform 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .modal-overlay.active .modal {

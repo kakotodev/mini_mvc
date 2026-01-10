@@ -12,7 +12,7 @@ final class ComputerProductController extends Controller {
 
     public function listComputerProducts(): void {
         $sort = $_GET['sort'] ?? 'default';
-        $computerproducts = ComputerProduct::getAll($sort);
+        $computerproducts = ComputerProduct::getAll($sort, true);
 
         $this->render('computers/list-computerproducts', params: [
             'title' => 'Liste des Ordinateurs disponibles',

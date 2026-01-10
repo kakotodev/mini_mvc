@@ -52,8 +52,10 @@ class AdminController extends Controller {
         $product->setPrix($input['prix']);
         $product->setDescription($input['description'] ?? '');
         $product->setComposants($input['composants'] ?? '');
+        $product->setComposants($input['composants'] ?? '');
         $product->setStock((int)$input['stock']);
         $product->setUrlImg($input['url_img'] ?? '');
+        $product->setDisponible($input['disponible'] ?? 'disponible');
 
         if ($product->save()) {
             http_response_code(201);
@@ -86,6 +88,7 @@ class AdminController extends Controller {
         $product->setComposants($input['composants'] ?? '');
         $product->setStock((int)$input['stock']);
         $product->setUrlImg($input['url_img'] ?? '');
+        $product->setDisponible($input['disponible'] ?? 'disponible');
 
         if ($product->update()) {
              echo json_encode(['success' => true]);

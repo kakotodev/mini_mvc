@@ -13,6 +13,7 @@
                     <th style="padding: 1rem;">Nom</th>
                     <th style="padding: 1rem;">Prix</th>
                     <th style="padding: 1rem;">Stock</th>
+                    <th style="padding: 1rem;">Disponibilité</th>
                     <th style="padding: 1rem;">Actions</th>
                 </tr>
             </thead>
@@ -36,12 +37,24 @@
                                 <?= $p['stock'] ?>
                             </td>
                             <td style="padding: 1rem;">
+                                <span style="
+                                    padding: 0.25rem 0.5rem; 
+                                    border-radius: 4px; 
+                                    font-size: 0.85rem;
+                                    background: <?= $p['disponible'] === 'disponible' ? '#d1fae5' : '#fee2e2' ?>;
+                                    color: <?= $p['disponible'] === 'disponible' ? '#065f46' : '#991b1b' ?>;
+                                ">
+                                    <?= htmlspecialchars($p['disponible'] ?? 'disponible') ?>
+                                </span>
+                            </td>
+                            <td style="padding: 1rem;">
                                 <button class="btn btn-secondary" 
                                         style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" 
                                         data-id="<?= $p['id_ordinateur'] ?>"
                                         data-nom="<?= htmlspecialchars($p['nom']) ?>"
                                         data-prix="<?= $p['prix'] ?>"
                                         data-stock="<?= $p['stock'] ?>"
+                                        data-disponible="<?= htmlspecialchars($p['disponible'] ?? 'disponible') ?>"
                                         data-description="<?= htmlspecialchars($p['description']) ?>"
                                         data-composants="<?= htmlspecialchars($p['composants']) ?>"
                                         data-url_img="<?= htmlspecialchars($p['url_img']) ?>"
@@ -83,6 +96,13 @@
                     <label class="form-label">Stock initial</label>
                     <input type="number" name="stock" class="form-input" required>
                 </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Disponibilité</label>
+                <select name="disponible" class="form-input">
+                    <option value="disponible">Disponible</option>
+                    <option value="non disponible">Non disponible</option>
+                </select>
             </div>
             <div class="form-group">
                 <label class="form-label">Composants</label>
@@ -145,6 +165,7 @@ function openEditModal(btn) {
     document.getElementById('edit_url_img').value = btn.getAttribute('data-url_img');
     document.getElementById('edit_composants').value = btn.getAttribute('data-composants');
     document.getElementById('edit_description').value = btn.getAttribute('data-description');
+    document.getElementById('edit_disponible').value = btn.getAttribute('data-disponible') || 'disponible';
     
     document.getElementById('editModal').classList.add('active');
 }
@@ -177,13 +198,14 @@ async function submitUpdate() {
     const url_img = document.getElementById('edit_url_img').value;
     const composants = document.getElementById('edit_composants').value;
     const description = document.getElementById('edit_description').value;
+    const disponible = document.getElementById('edit_disponible').value;
 
     try {
         const res = await fetch('/admin/products/update', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                id, nom, prix, stock, url_img, composants, description
+                id, nom, prix, stock, url_img, composants, description, disponible
             })
         });
         const data = await res.json();
@@ -222,6 +244,13 @@ async function submitUpdate() {
                     <label class="form-label">Stock</label>
                     <input type="number" id="edit_stock" class="form-input" required>
                 </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Disponibilité</label>
+                <select id="edit_disponible" class="form-input">
+                    <option value="disponible">Disponible</option>
+                    <option value="non disponible">Non disponible</option>
+                </select>
             </div>
             <div class="form-group">
                 <label class="form-label">Composants</label>
