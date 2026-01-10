@@ -20,4 +20,23 @@ final class ComputerProductController extends Controller {
         ]);
     }
 
+    public function showDetails(): void {
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            header('Location: /computers');
+            exit;
+        }
+
+        $product = ComputerProduct::selectByID((int)$id);
+        if (!$product) {
+            header('Location: /computers');
+            exit;
+        }
+
+        $this->render('computers/show', params: [
+            'title' => $product['nom'],
+            'product' => $product
+        ]);
+    }
+
 }

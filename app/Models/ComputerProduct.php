@@ -106,6 +106,9 @@ class ComputerProduct {
             case 'stock_desc':
                 $query .= " ORDER BY stock DESC";
                 break;
+            case 'name_asc':
+                $query .= " ORDER BY nom ASC";
+                break;
             default:
                 $query .= " ORDER BY id_ordinateur ASC";
                 break;

@@ -13,6 +13,7 @@
                 <option value="price_desc" <?= (isset($_GET['sort']) && $_GET['sort'] === 'price_desc') ? 'selected' : '' ?>>Prix décroissant</option>
                 <option value="stock_asc" <?= (isset($_GET['sort']) && $_GET['sort'] === 'stock_asc') ? 'selected' : '' ?>>Stock croissant</option>
                 <option value="stock_desc" <?= (isset($_GET['sort']) && $_GET['sort'] === 'stock_desc') ? 'selected' : '' ?>>Stock décroissant</option>
+                <option value="name_asc" <?= (isset($_GET['sort']) && $_GET['sort'] === 'name_asc') ? 'selected' : '' ?>>Ordre alphabétique</option>
             </select>
         </form>
     </div>
@@ -27,15 +28,21 @@
         <div class="product-grid">
             <?php foreach ($computerproducts as $product): ?>
                 <div class="product-card">
-                    <div class="product-image">
-                        <img 
-                            src="<?= htmlspecialchars($product['url_img']) ?>"
-                            alt="<?= htmlspecialchars($product['nom']) ?>"
-                            loading="lazy"
-                        >
-                    </div>
+                    <a href="/computers/details?id=<?= $product['id_ordinateur'] ?>" style="text-decoration: none; color: inherit; display: block; height: 100%;">
+                        <div class="product-image">
+                            <img 
+                                src="<?= htmlspecialchars($product['url_img']) ?>"
+                                alt="<?= htmlspecialchars($product['nom']) ?>"
+                                loading="lazy"
+                            >
+                        </div>
+                    </a>
                     <div class="product-content">
-                        <div class="product-title"><?= htmlspecialchars($product['nom']) ?></div>
+                        <div class="product-title">
+                            <a href="/computers/details?id=<?= $product['id_ordinateur'] ?>" style="text-decoration: none; color: inherit;">
+                                <?= htmlspecialchars($product['nom']) ?>
+                            </a>
+                        </div>
                         <div class="product-desc"><?= htmlspecialchars($product['composants'])?></div>
                         <div class="product-price"><?= htmlspecialchars($product['prix']) ?>€</div>
                         <div class="product-stock">
