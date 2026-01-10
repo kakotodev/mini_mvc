@@ -41,15 +41,21 @@ class AdminController extends Controller {
              $input = $_POST;
         }
 
-        if (empty($input['nom']) || empty($input['prix']) || empty($input['stock'])) {
+        if (empty($input['nom']) || !isset($input['prix']) || !isset($input['stock'])) {
              http_response_code(400);
              echo json_encode(['error' => 'Missing required fields']);
              return;
         }
 
+        if ($input['prix'] < 0 || $input['stock'] < 0) {
+             http_response_code(400);
+             echo json_encode(['error' => 'Prix et stock doivent être positifs']);
+             return;
+        }
+
         $product = new ComputerProduct();
         $product->setNom($input['nom']);
-        $product->setPrix($input['prix']);
+        $product->setPrix((float)$input['prix']);
         $product->setDescription($input['description'] ?? '');
         $product->setComposants($input['composants'] ?? '');
         $product->setComposants($input['composants'] ?? '');
@@ -77,6 +83,17 @@ class AdminController extends Controller {
         if (empty($input['id'])) {
              http_response_code(400);
              echo json_encode(['error' => 'Missing ID parameter']);
+             return;
+        }
+
+        if (isset($input['prix']) && $input['prix'] < 0) {
+             http_response_code(400);
+             echo json_encode(['error' => 'Le prix ne peut pas être négatif']);
+             return;
+        }
+        if (isset($input['stock']) && $input['stock'] < 0) {
+             http_response_code(400);
+             echo json_encode(['error' => 'Le stock ne peut pas être négatif']);
              return;
         }
 

@@ -90,11 +90,11 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div class="form-group">
                     <label class="form-label">Prix (€)</label>
-                    <input type="number" name="prix" step="0.01" class="form-input" required>
+                    <input type="number" name="prix" step="0.01" min="0" class="form-input" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Stock initial</label>
-                    <input type="number" name="stock" class="form-input" required>
+                    <input type="number" name="stock" min="0" class="form-input" required>
                 </div>
             </div>
             <div class="form-group">
@@ -238,11 +238,11 @@ async function submitUpdate() {
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div class="form-group">
                     <label class="form-label">Prix (€)</label>
-                    <input type="number" id="edit_prix" step="0.01" class="form-input" required>
+                    <input type="number" id="edit_prix" step="0.01" min="0" class="form-input" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Stock</label>
-                    <input type="number" id="edit_stock" class="form-input" required>
+                    <input type="number" id="edit_stock" min="0" class="form-input" required>
                 </div>
             </div>
             <div class="form-group">
