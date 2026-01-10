@@ -78,11 +78,16 @@ class AdminController extends Controller {
              return;
         }
 
-        // We need to fetch existing to keep other fields if not provided?
-        // Actually the dashboard will send name, price, stock. Description/Composants might be missing.
-        // Let's implement ComputerProduct::updateInline($id, $nom, $prix, $stock)
-        
-        if (ComputerProduct::updateInline((int)$input['id'], $input['nom'], (float)$input['prix'], (int)$input['stock'])) {
+        $product = new ComputerProduct();
+        $product->setIdOrdinateur((int)$input['id']);
+        $product->setNom($input['nom']);
+        $product->setPrix((float)$input['prix']);
+        $product->setDescription($input['description'] ?? '');
+        $product->setComposants($input['composants'] ?? '');
+        $product->setStock((int)$input['stock']);
+        $product->setUrlImg($input['url_img'] ?? '');
+
+        if ($product->update()) {
              echo json_encode(['success' => true]);
         } else {
              http_response_code(500);

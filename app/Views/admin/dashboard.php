@@ -27,16 +27,27 @@
                                 <?php endif; ?>
                             </td>
                             <td style="padding: 1rem;">
-                                <input type="text" id="nom-<?= $p['id_ordinateur'] ?>" value="<?= htmlspecialchars($p['nom']) ?>" class="form-input" style="width: 150px; padding: 0.25rem;">
+                                <?= htmlspecialchars($p['nom']) ?>
                             </td>
                             <td style="padding: 1rem;">
-                                <input type="number" step="0.01" id="prix-<?= $p['id_ordinateur'] ?>" value="<?= $p['prix'] ?>" class="form-input" style="width: 80px; padding: 0.25rem;"> €
+                                <?= $p['prix'] ?> €
                             </td>
                             <td style="padding: 1rem;">
-                                <input type="number" id="stock-<?= $p['id_ordinateur'] ?>" value="<?= $p['stock'] ?>" class="form-input" style="width: 80px; padding: 0.25rem;">
+                                <?= $p['stock'] ?>
                             </td>
                             <td style="padding: 1rem;">
-                                <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="updateProduct(<?= $p['id_ordinateur'] ?>)">Mettre à jour</button>
+                                <button class="btn btn-secondary" 
+                                        style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" 
+                                        data-id="<?= $p['id_ordinateur'] ?>"
+                                        data-nom="<?= htmlspecialchars($p['nom']) ?>"
+                                        data-prix="<?= $p['prix'] ?>"
+                                        data-stock="<?= $p['stock'] ?>"
+                                        data-description="<?= htmlspecialchars($p['description']) ?>"
+                                        data-composants="<?= htmlspecialchars($p['composants']) ?>"
+                                        data-url_img="<?= htmlspecialchars($p['url_img']) ?>"
+                                        onclick="openEditModal(this)">
+                                    Modifier
+                                </button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -98,34 +109,6 @@ function closeAddModal() {
     document.getElementById('addModal').classList.remove('active');
 }
 
-// Update Product logic
-async function updateProduct(id) {
-    const nomVal = document.getElementById('nom-' + id).value;
-    const prixVal = document.getElementById('prix-' + id).value;
-    const stockVal = document.getElementById('stock-' + id).value;
-    
-    try {
-        const res = await fetch('/admin/products/update', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                id: id, 
-                nom: nomVal,
-                prix: prixVal,
-                stock: stockVal
-            })
-        });
-        const data = await res.json();
-        if(data.success) {
-            alert('Produit mis à jour !');
-        } else {
-            alert('Erreur: ' + (data.error || 'Server error'));
-        }
-    } catch(e) {
-        alert('Erreur connexion');
-    }
-}
-
 // Add Product logic
 document.getElementById('addProductForm').addEventListener('submit', async function(e){
     e.preventDefault();
@@ -149,4 +132,122 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
         alert('Erreur connexion');
     }
 });
+
+// Edit Modal Logic
+let currentEditId = null;
+
+function openEditModal(btn) {
+    currentEditId = btn.getAttribute('data-id');
+    document.getElementById('edit_id').value = currentEditId;
+    document.getElementById('edit_nom').value = btn.getAttribute('data-nom');
+    document.getElementById('edit_prix').value = btn.getAttribute('data-prix');
+    document.getElementById('edit_stock').value = btn.getAttribute('data-stock');
+    document.getElementById('edit_url_img').value = btn.getAttribute('data-url_img');
+    document.getElementById('edit_composants').value = btn.getAttribute('data-composants');
+    document.getElementById('edit_description').value = btn.getAttribute('data-description');
+    
+    document.getElementById('editModal').classList.add('active');
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').classList.remove('active');
+}
+
+function openConfirmModal() {
+    // Hide edit modal nicely? Or just overlay?
+    // Let's stack them or hide the first one. For simplicity, let's keep edit open and show confirm on top (z-index)
+    // But since they use same class, let's just create a separate confirm modal that closes the edit one for clarity, 
+    // or better: just show confirm modal and if canceled re-open edit.
+    
+    // Simple approach: Close Edit, Open Confirm.
+    document.getElementById('editModal').classList.remove('active');
+    document.getElementById('confirmModal').classList.add('active');
+}
+
+function cancelConfirm() {
+    document.getElementById('confirmModal').classList.remove('active');
+    document.getElementById('editModal').classList.add('active');
+}
+
+async function submitUpdate() {
+    const id = document.getElementById('edit_id').value;
+    const nom = document.getElementById('edit_nom').value;
+    const prix = document.getElementById('edit_prix').value;
+    const stock = document.getElementById('edit_stock').value;
+    const url_img = document.getElementById('edit_url_img').value;
+    const composants = document.getElementById('edit_composants').value;
+    const description = document.getElementById('edit_description').value;
+
+    try {
+        const res = await fetch('/admin/products/update', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                id, nom, prix, stock, url_img, composants, description
+            })
+        });
+        const data = await res.json();
+        if(data.success) {
+            alert('Produit mis à jour !');
+            location.reload();
+        } else {
+            alert('Erreur: ' + (data.error || 'Server error'));
+        }
+    } catch(e) {
+        alert('Erreur connexion');
+    }
+}
 </script>
+
+<!-- Edit Product Modal -->
+<div id="editModal" class="modal-overlay">
+    <div class="modal">
+        <h3 class="modal-title">Modifier le produit</h3>
+        <form id="editProductForm" onsubmit="event.preventDefault(); openConfirmModal();">
+            <input type="hidden" id="edit_id">
+            <div class="form-group">
+                <label class="form-label">Nom du produit</label>
+                <input type="text" id="edit_nom" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">URL Image</label>
+                <input type="url" id="edit_url_img" class="form-input">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">Prix (€)</label>
+                    <input type="number" id="edit_prix" step="0.01" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Stock</label>
+                    <input type="number" id="edit_stock" class="form-input" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Composants</label>
+                <textarea id="edit_composants" class="form-input" rows="6"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea id="edit_description" class="form-input" rows="3"></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Annuler</button>
+                <button type="submit" class="btn btn-primary">Modifier</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirmModal" class="modal-overlay" style="z-index: 2000;">
+    <div class="modal" style="max-width: 400px; text-align: center;">
+        <h3 class="modal-title">Confirmer la modification</h3>
+        <p style="margin-bottom: 1.5rem;">Êtes-vous sûr de vouloir enregistrer ces modifications ?</p>
+        <div class="modal-actions" style="justify-content: center;">
+            <button type="button" class="btn btn-secondary" onclick="cancelConfirm()">Non</button>
+            <button type="button" class="btn btn-primary" onclick="submitUpdate()">Oui</button>
+        </div>
+    </div>
+</div>
